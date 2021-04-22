@@ -1,5 +1,31 @@
 <template>
   <q-page class="bg-grey-3 column">
+    <div class="row q-pa-sm bg-primary">
+
+      <q-input
+        v-model="newTask"
+        @keyup.enter="addTask"
+        placeholder="Add task"
+        dense
+        bg-color="white"
+        class="col"
+        square
+        filled
+
+      >
+        <template v-slot:append>
+          <q-btn
+            round
+            dense
+            flat
+            icon="add"
+            @click="addTask"/>
+        </template>
+
+
+      </q-input>
+
+    </div>
     <q-list
       class="bg-white"
       separator
@@ -33,6 +59,14 @@
         </q-item-section>
       </q-item>
     </q-list>
+    <div class="no-tasks absolute-center" v-if="!tasks.length">
+      <q-icon name="check" size="100px" color="primary">
+
+      </q-icon>
+      <div class="text-h5 text-primary text-center">
+        No tasks
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -40,21 +74,22 @@
 export default {
   data() {
     return {
+      newTask: '',
       tasks: [
-        {
-          title: 'Get bannanas',
-          done: false
-        },
-
-        {
-          title: 'Get mandarinas',
-          done: false
-        },
-
-        {
-          title: 'Get food',
-          done: false
-        },
+        // {
+        //   title: 'Get bannanas',
+        //   done: false
+        // },
+        //
+        // {
+        //   title: 'Get mandarinas',
+        //   done: false
+        // },
+        //
+        // {
+        //   title: 'Get food',
+        //   done: false
+        // },
       ]
     }
   },
@@ -71,6 +106,13 @@ export default {
         this.$q.notify('Task deleted')
       })
 
+    },
+    addTask() {
+      this.tasks.push({
+        title:this.newTask,
+        done: false
+      }),
+        this.newTask = ''
     }
   }
 }
@@ -82,5 +124,9 @@ export default {
     text-decoration: line-through;
     color: #bbb;
   }
+}
+
+.no-tasks {
+  opacity: 0.5;
 }
 </style>
